@@ -7,7 +7,7 @@ const server = new Hapi.Server(config.server);
 
 (async () => {
     const result = await got.get('https://api.travis-ci.org/config', { json: true });
-    const key = new NodeRSA(result.body.config.notifications.webhook.public_key);
+    const key = new NodeRSA(result.body.config.notifications.webhook.public_key, { signingScheme: 'sha1' });
 
     server.route(require('./routes/webhook')(key));
 

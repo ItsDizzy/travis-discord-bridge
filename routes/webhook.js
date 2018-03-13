@@ -39,14 +39,19 @@ module.exports = (key) => ({
   path: '/webhook',
   method: 'POST',
   handler: async (req) => {
-    if(!key.verify(req.payload), req.headers.signature, 'base64', 'base64') {
-      return Boom.unauthorized('Signed payload does not match signature');
+    if(!req.headers.signature) { 
+      return Boom.badRequest('No signature found on request'); 
     }
 
-    const data = req.payload;
+    const data = JSON.parse(req.payload.payload);
+
+    // if(!key.verify(data), req.headers.signature, 'base64', 'base64') {
+    //   return Boom.unauthorized('Signed payload does not match signature');
+    // }
+
     const status = getStatus(data);
 
-    const foundEntry = config.repositories.find(repository => repository.name === data.repository.name)
+    const foundEntry = config.repositories.find(repository => data.repository && repository.name === data.repository.name)
 
     if(!foundEntry) {
       return Boom.badRequest('Repository not registered!');
