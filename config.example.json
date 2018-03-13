@@ -7,7 +7,7 @@
     {
       "name": "yts-api",
       "branches": ["master"],
-      "hooks": ["pending", "passed", "fixed", "broken", "failed", "still_failing", "canceled"],
+      "hooks": ["Pending", "Passed", "Fixed", "Broken", "Failed", "Still Failing", "Canceled"],
       "webhook": ""
     }
   ]
